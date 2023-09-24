@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Moda masculina</title>
+</head>
+
+<body>
+    <h1>Moda masculina</h1>
+
+    <!--Adicionando opcoes de moedas -->
+    <h2>Escolha sua Moeda Padrão:</h2>
+    <select id="moedaPadrao" onchange="atualizarValores()">
+        <option value="USD">Dólares ($)</option>
+        <option value="EUR">Euros (€)</option>
+        <option value="BRL">Reais (R$)</option>
+    </select>
+
+    <form id="pedidoForm">
+        <h2>Roupas:</h2>
+        <ul id="listaRoupas">
+            <!-- Itens de roupas serão gerados aqui -->
+        </ul>
+
+
+        <!-- Adicionando opcoes de entrega -->
+        <h2>Métodos de Entrega:</h2>
+        <p>Para a região de Vila Velha - ES:</p>
+        <select name="metodoEntrega" id="modoDeEntrega">
+            <!--
+      <option value="Entrega Padrão">Entrega Padrão</option>
+      <option value="Entrega Expressa">Entrega Expressa</option>
+      <option value="Retirada na Loja">Retirada na Loja</option>
+      -->
+        </select>
+
+        <br><br>
+        <button type="button" onclick="calcularCusto()">Calcular Custo Total</button>
+    </form>
+
+    <h2>Resultado:</h2>
+    <p id="resultado"></p>
+
+
+
+    <script>
+        // Defina as taxas de câmbio
+        const taxasDeCambio = {
+            USD: 1.00,  // Dólares (USD)
+            EUR: 0.938407,  // Euros (EUR)
+            BRL: 4.86   // Reais (BRL)
+        };
+
+        // Defina os nomes e valores das taxas de entrega
+        const entregas = [
+            {
+                nome: "Entrega padrao",
+                precos: {
+                    USD: 2.06,
+                    EUR: 1.93,
+                    BRL: 10.00
+                }
+            },
+            {
+
+                nome: "Entrega expressa",
+                precos: {
+                    USD: 3.09,
+                    EUR: 2.89,
+                    BRL: 15.00
+                }
+            },
+
+            {
+
+                nome: "Retirada na loja",
+                precos: {
+                    USD: 0.0,
+                    EUR: 0.0,
+                    BRL: 0.0
+                }
+            },
+        ];
+
+        // Defina os nomes e valores das roupas
+        const roupas = [
+            {
+                nome: "Camisa Polo manga curta",
+                precos: {
+                    USD: 12.33,
+                    EUR: 11.55,
+                    BRL: 60.00
+                }
+            },
+            {
+                nome: "Camisa Polo manga longa",
+                precos: {
+                    USD: 12.74,
+                    EUR: 11.94,
+                    BRL: 62.00
+                }
+            },
+            {
+                nome: "Camisa basica",
+                precos: {
+                    USD: 10.27,
+                    EUR: 9.63,
+                    BRL: 50.00
+                }
+            },
+            {
+                nome: "Camisa social manga longa",
+                precos: {
+                    USD: 24.66,
+                    EUR: 23.20,
+                    BRL: 120.00
+                }
+            },
+            {
+                nome: "Camisa social manga curta",
+                precos: {
+                    USD: 20.55,
+                    EUR: 19.25,
+                    BRL: 100.00
+                }
+            },
+            {
+                nome: "Calca jeans",
+                precos: {
+                    USD: 21.37,
+                    EUR: 20.02,
+                    BRL: 104.00
+                }
+            },
+            {
+                nome: "Calca em sarja brim",
+                precos: {
+                    USD: 25.07,
+                    EUR: 23.49,
+                    BRL: 122.00
+                }
+            },
+            {
+                nome: "Bermuda brim",
+                precos: {
+                    USD: 18.49,
+                    EUR: 17.33,
+                    BRL: 90.00
+                }
+            },
+            {
+                nome: "Jaqueta jeans",
+                precos: {
+                    USD: 31.23,
+                    EUR: 29.26,
+                    BRL: 152.00
+                }
+            },
+            {
+                nome: "Casaco de la",
+                precos: {
+                    USD: 31.44,
+                    EUR: 29.45,
+                    BRL: 153.00
+                }
+            }
+        ];
+
+        // Função para atualizar os valores com base na moeda selecionada
+        function atualizarValores() {
+            const moedaPadrao = document.getElementById("moedaPadrao").value;
+
+
+            const listaRoupas = document.getElementById("listaRoupas");
+
+
+            listaRoupas.innerHTML = '';
+            // Adicione o símbolo de moeda ao valor da roupa com base na moeda selecionada
+            let simboloMoeda;
+            switch (moedaPadrao) {
+                case "USD":
+                    simboloMoeda = "$";
+                    break;
+                case "EUR":
+                    simboloMoeda = "€";
+                    break;
+                case "BRL":
+                    simboloMoeda = "R$";
+                    break;
+                default:
+                    simboloMoeda = "";
+                    break;
+            }
+
+            // Percorra as ROUPAS e atualize os valores com base na taxa de câmbio
+            roupas.forEach((roupa) => {
+                const nomeRoupa = roupa.nome;
+                const precoEmMoeda = roupa.precos[moedaPadrao];
+                const taxaDeCambio = taxasDeCambio[moedaPadrao];
+                const valorRoupa = (precoEmMoeda).toFixed(2);
+
+                //como acessar o preco 
+
+                const li = document.createElement("li");
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "checkbox";
+                input.name = "roupas";
+                input.value = nomeRoupa;
+                input.setAttribute(`data-price-${moedaPadrao.toLowerCase()}`, precoEmMoeda);
+
+
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(` ${nomeRoupa} - ${simboloMoeda}${valorRoupa}`));
+                li.appendChild(label);
+                listaRoupas.appendChild(li);
+
+
+
+            });
+
+            //Percorra as TAXAS DE ENTREGA e atualize os valores com base na taxa de cambio
+            const modoDeEntrega = document.getElementById("modoDeEntrega");
+            modoDeEntrega.innerHTML = '';
+            entregas.forEach((entrega) => {
+
+                const nomeEntrega = entrega.nome;
+
+                const option = document.createElement("option");
+
+                const precoEmMoeda = entrega.precos[moedaPadrao];
+                const taxaDeCambio = taxasDeCambio[moedaPadrao];
+                const valorEntrega = (precoEmMoeda).toFixed(2);
+
+
+
+
+                option.value = nomeEntrega;
+
+                option.appendChild(document.createTextNode(` ${nomeEntrega} - ${simboloMoeda}${valorEntrega}`));
+
+                modoDeEntrega.appendChild(option);
+
+            })
+
+
+        }
+
+
+        // Chame a função para atualizar os valores quando a página for carregada
+        atualizarValores();
+
+        //calculando o custo
+
+        function calcularCusto() {
+            const form = document.getElementById("pedidoForm");
+            const selectedRoupas = Array.from(form.querySelectorAll('input[name="roupas"]:checked')).map(input => input.value);
+            const metodoEntrega = form.querySelector('select[name="metodoEntrega"]').value;
+            const moedaPadrao = document.getElementById("moedaPadrao").value;
+            // Obtenha a taxa de entrega com base no método de entrega selecionado e na moeda selecionada
+            const taxaEntrega = entregas.find(entrega => entrega.nome === metodoEntrega).precos[moedaPadrao];
+
+
+            // Atualize o símbolo da moeda com base na moeda selecionada
+            let simboloMoeda;
+            switch (moedaPadrao) {
+                case "USD":
+                    simboloMoeda = "$";
+                    break;
+                case "EUR":
+                    simboloMoeda = "€";
+                    break;
+                case "BRL":
+                    simboloMoeda = "R$";
+                    break;
+                default:
+                    simboloMoeda = "";
+                    break;
+            }
+
+            let custoRoupas = 0;
+            for (const roupa of selectedRoupas) {
+                const checkbox = form.querySelector(`input[name="roupas"][value="${roupa}"]`);
+                const precoEmMoeda = parseFloat(checkbox.getAttribute(`data-price-${moedaPadrao.toLowerCase()}`));
+                custoRoupas += precoEmMoeda;
+            }
+
+
+
+            // Função para calcular o custo total
+            const custoTotal = custoRoupas + taxaEntrega;
+            const resultadoElement = document.getElementById("resultado");
+            resultadoElement.innerHTML = `O custo total do pedido é de ${simboloMoeda} ${custoTotal.toFixed(2)} <br><br>Regra de Negócio: <br> Simples nacional - Taxa de 4% sobre sobre o comércio.<br>Fonte:
+Tabela anexo 1 do Simples Nacional.
+CNAE 4781 - 4/00`;
+
+            // Limpar as seleções do formulário após o cálculo
+            form.reset();
+        }
+
+
+    </script>
+</body>
+
+</html>
