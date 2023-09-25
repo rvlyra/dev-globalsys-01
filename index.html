@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Pedido de Medicamentos</title>
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/777d29199a.js" crossorigin="anonymous"></script>
+  <!-- Progress bar-->
+  <script src="js/progressbar.min.js"></script>
+  <!-- Parallax -->
+  <script src="https://cdn.jsdelivr.net/parallax.js/1.4.2/parallax.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container" id="nav-container">
+      <nav class="navbar navbar-expend-lg fixed-top">  
+        <a href="#" class="navbar-brand">
+          <img id="logo" src="img/logo-de-farmacia.avif" alt="Farmacia Virtual"> Farmacia Virtual 
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-links" 
+          aria-controls="navbar-links" aria-expanded="false" aria-label="navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-contect-end" id="navbar-links">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link" id="home-menu">Home</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+<body>
+  <!-- Adicione um container Bootstrap para alinhar o conteúdo -->
+  <div class="container">
+    <h1 class="mt-4">Pedido de Medicamentos</h1>
+    <form id="pedidoForm">
+      <div class="form-group">
+        <h2>Medicamentos Disponíveis:</h2>
+        <ul class="list-unstyled">
+          <li class="form-check">
+            <label class="form-check-label">
+              <img id="aspirina" src="img/aspirina.jpg"  alt="aspirina"> 
+              <input type="checkbox" class="form-check-input" name="medicamento" value="Aspirina"> Aspirina - R$5.00
+            </label>
+          </li>
+          <li class="form-check">
+            <label class="form-check-label">
+              <img id="antibiotico" src="img/antibiotico.jpg" alt="antibiotico"> 
+              <input type="checkbox" class="form-check-input" name="medicamento" value="Antibiotico"> Antibiótico - R$10.00
+            </label>
+          </li>
+          <li class="form-check">
+            <label class="form-check-label">
+              <img id="analgesico" src="img/analgesico.jpg" alt="analgesico">
+              <input type="checkbox" class="form-check-input" name="medicamento" value="Analgesico"> Analgésico - R$8.00
+            </label>
+          </li>
+          <li class="form-check">
+            <label class="form-check-label">
+              <img id="vitaminas" src="img/vitaminas.jpg" alt="vitaminas">
+              <input type="checkbox" class="form-check-input" name="medicamento" value="Vitaminas"> Vitaminas - R$12.00
+            </label>
+          </li>
+        </ul>
+      </div>
+
+      <div class="form-group">
+        <h2>Métodos de Entrega:</h2>
+        <select class="form-control" name="metodoEntrega">
+          <option value="Entrega Padrão">Entrega Padrão - R$0.00</option>
+          <option value="Entrega Expressa">Entrega Expressa - R$10.00</option>
+          <option value="Retirada na Loja">Retirada na Loja - R$0.00</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" onclick="calcularCusto()">Calcular Custo Total</button>
+      </div>
+    </form>
+
+    <div class="mt-4">
+      <h2>Resultado:</h2>
+      <p id="resultado"></p>
+    </div>
+  </div>
+
+  <!-- Adicione os scripts do Bootstrap e seu código JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    function calcularCusto() {
+      const form = document.getElementById("pedidoForm");
+      const selectedMedicamentos = Array.from(form.querySelectorAll('input[name="medicamento"]:checked')).map(input => input.value);
+      const metodoEntrega = form.querySelector('select[name="metodoEntrega"]').value;
+
+      let custoMedicamentos = 0;
+      let medicamentosSelecionadosTexto = "";
+
+      for (const medicamento of selectedMedicamentos) {
+        switch (medicamento) {
+          case "Aspirina":
+            custoMedicamentos += 5.0;
+            break;
+          case "Antibiotico":
+            custoMedicamentos += 10.0;
+            break;
+          case "Analgesico":
+            custoMedicamentos += 8.0;
+            break;
+          case "Vitaminas":
+            custoMedicamentos += 12.0;
+            break;
+        }
+        medicamentosSelecionadosTexto += `${medicamento}, `;
+      }
+
+      // Remova a vírgula extra no final da lista de medicamentos selecionados
+      medicamentosSelecionadosTexto = medicamentosSelecionadosTexto.replace(/,\s*$/, "");
+
+      let custoEntrega = 0;
+      switch (metodoEntrega) {
+        case "Entrega Padrão":
+          custoEntrega = 0.0;
+          break;
+        case "Entrega Expressa":
+          custoEntrega = 10.0;
+          break;
+        case "Retirada na Loja":
+          custoEntrega = 0.0;
+          break;
+      }
+
+      const custoTotal = custoMedicamentos + custoEntrega;
+      const resultadoElement = document.getElementById("resultado");
+      resultadoElement.innerHTML = `
+        Medicamentos Selecionados: ${medicamentosSelecionadosTexto}<br>
+        Custo dos Medicamentos: R$${custoMedicamentos.toFixed(2)}<br>
+        Método de Entrega: ${metodoEntrega}<br>
+        Custo da Entrega: R$${custoEntrega.toFixed(2)}<br>
+        <strong>Custo Total do Pedido: R$${custoTotal.toFixed(2)}</strong>`;
+    }
+  </script>
+</body>
+</html>
+
