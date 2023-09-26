@@ -1,0 +1,75 @@
+/* Gerais */
+body {
+    font-family: 'Roboto Condensed' , sans-serif
+}
+
+.row {
+    margin: 0;
+}
+
+.container {
+    padding: 70px 0;
+}
+
+p, li {
+    color: #444;
+    font-size: 14px; 
+}
+
+/* Barra de Navegacao */
+header, .navbar {
+    background-color: blue;
+    padding:  2%;
+} 
+
+#nav-container {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#logo {
+    width: 75px;
+}
+
+.navbar-brand {
+    padding: 0;
+    color: #FFF;
+}
+
+.navbar-brand:hover {
+    color:#FFF;
+}
+
+#navbar-links a {
+    color: #FFF;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding: 1rem .8rem;
+}
+
+/* IMAGENS */
+
+#antibiotico {
+    width: 100px; /* Define a largura da imagem como 100 pixels */
+    height: 70px; /* Define a altura da imagem como 70 pixels */
+}
+  
+#analgesico {
+    width: 100px; 
+    height: 70px; 
+}
+  
+#aspirina {
+    width: 100px; 
+    height: 70px; 
+}
+
+#vitaminas {
+    width: 100px; 
+    height: 70px; 
+}
+
+.value {
+    width: 30px;
+}
